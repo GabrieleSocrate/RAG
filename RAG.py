@@ -65,10 +65,16 @@ embeddings = OpenAIEmbeddings()
 # VECTOR STORES
 # -----------------------------------------
 from langchain_community.vectorstores import FAISS
-vector_store = FAISS.from_documents(document_chunks, embeddings)
+if os.path.exists("faiss_index"): # if we have already done the embeddings
+    vector_store = FAISS.load_local(
+        "faiss_index",
+        embeddings, # we have to specify the embedding model we used
+        allow_dangerous_deserialization=True
+    )
+else: # THIS IS FOR THE FIRST RUN (we create for the first time the embeddings)
+    vector_store = FAISS.from_documents(document_chunks, embeddings)
+    vector_store.save_local("faiss_index") # We save the embeddings locally otherwise I should pay for embeddings every time I run this file, since I'd do the embeddings every time
 # This is the vector store (FAISS) where we store all the vectors we have obtained from embedding
-vector_store.save_local("faiss_embeddings") 
-"""We save the embeddings locally otherwise I should pay for embeddings every time I run this file, since I'd do the embeddings every time"""
 
 # -----------------------------------------
 # 5)
