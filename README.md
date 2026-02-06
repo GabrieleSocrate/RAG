@@ -35,3 +35,25 @@ To avoid recomputing embeddings at every run (and unnecessarily increasing API c
 
 - On the first run, embeddings are computed and saved to disk.
 - On subsequent runs, the index is loaded directly from disk.
+
+---
+
+## **Running the API (FastAPI + Uvicorn)**
+
+The RAG system is exposed through a FastAPI application, served using Uvicorn, an ASGI web server for Python.
+
+To start the API locally, run:
+
+uvicorn main:app --reload
+
+
+Once the server is running, Uvicorn will print an address similar to:
+
+http://127.0.0.1:8000
+
+**Important Note**
+
+Copy the printed address and manually add /docs:
+
+http://127.0.0.1:8000/docs
+
